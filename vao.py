@@ -1,7 +1,10 @@
-# Teste de func.
+# Copyright fasaraujo 
 import math
 
 """"
+Obs: Código não considera o impacto da componente vertical e horizontal 
+da influência do vento.
+
 Definicao de Constantes
 
 Peso do cabo km/m -> 0.100
@@ -35,6 +38,8 @@ arnaVaoReg = vao()
 arnaFlecha = arnaVaoReg * 0.01
 arnaPesoCabo = 0.100
 arnaTracaoCabo = ((arnaPesoCabo*(arnaVaoReg**2))/(8*arnaFlecha))
+arnaFr = math.sqrt(math.pow(arnaTracaoCabo,2) + math.pow(arnaTracaoCabo,2))
 #print(f'Vão Acumulado em (Mtrs) do trecho -> {arnaVao:.2f}')
 print(f'Vão Regulador no trecho -> {arnaVaoReg:.2f} Mtrs')
-print(f'Tração/Esforço no Cabo -> {arnaTracaoCabo:.2f} Kgf')
+print(f'Tração/Esforço no Cabo (Passagem) -> {arnaTracaoCabo:.2f} Kgf')
+print(f'Esforço Resultante (Poste de Esquina) -> {arnaFr:.2f} Kgf')
