@@ -36,7 +36,14 @@ def arnaMain():
         arnaCursor.execute("SELECT * FROM cliente")
         arnaListaRecs = arnaCursor.fetchall()
         print(f'Total de registros existentes {len(arnaListaRecs)}')
+        for i in arnaListaRecs:
+            print(f'Usuario: {i[1]}') # usa o iterador com a posição da tupla de interesse
+
+        arnaPeganome = input('Digite o nome: ')
+        arnaCursor.execute("INSERT INTO cliente (nome) VALUES (?)",(arnaPeganome,))      
+        arnaStream.commit()
         arnaCloseDb(arnaStream)
+        print('Gravado com sucesso..')
     else:
         print("Falha! não abriu")
 

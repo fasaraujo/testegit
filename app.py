@@ -1,4 +1,4 @@
-from flask import Flask,jsonify
+from flask import Flask,jsonify,request
 
 app = Flask(__name__)
 
@@ -17,7 +17,7 @@ po = [
 
 ]
 
-# criacao dos endpoins 
+# ENDPOINTS
 
 @app.route('/')
 def home():
@@ -34,5 +34,37 @@ def getPoById(id):
             return jsonify(i)
     return jsonify({'message': f'pedido {id} nao encontrado'})
 
+@app.route('/create_order', methods=['POST'])
+def createPoOrder():
+    arnaRequestData = request.get_json()
+    arnaPurchaseOrder = {
+        'id': arnaRequestData['id'],
+        'description': arnaRequestData['description'],
+        'items': []
+    }
+
+    po.append(arnaPurchaseOrder)
+    return jsonify(arnaPurchaseOrder)
+
+@app.route('/poitem/<int:id>/items')
+def getPurchaseOrdersId(id):
+    for i in po:
+        if i['id'] == id:
+            return jsonify(i['items']) 
+    return jsonify({'message': f'pedido {id} nao encontrado'})
+
+#
+@app.route('/createpoiditems/<int:id>/items',methods=['POST'])
+def createGetPoById(id):
+    req_data = request.get_json()
+    for i in po:
+        if ( i['id'] == id ):
+            i['items'].append({
+                'id': req_data['id'],
+                'description': req_data['description'],
+                'price': req_data['price']
+            })
+            return jsonify(po)
+    return jsonify({'message': f'pedido {id} nao encontrado'})
 
 app.run(port=5000, debug=True)
